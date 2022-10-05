@@ -1,0 +1,149 @@
+@charset "utf-8" ;
+
+/* 초기화 */
+body, h1, h2, p, ul {margin: 0; padding: 0;}
+ul li { list-style: none; }
+a { text-decoration: #000; color: #000; }
+address { font-style: normal; } /* footer에 있는 address 로 기울기 된 것을 nomal 로 없앰 */
+h1, h2, h3, h4, h5, h6 { font-weight: normal; } /* 기본 폰트 설정 */
+small { font-size: 1em; } /* 폰트 크기 설정 */
+hr { display: none; } /* 영역을 차지하지 않고 안 보이게 하는 방법 */
+.hidden { position: absolute; left: -9999px; } /* 보이지는 않아야 하지만 있어야 함 > position absolute 로 띄운 다음에 왼쪽으로 치워버림*/
+
+/* 헤더 */
+
+#header { width: 100%; height: 100px;  /* 영역을 지정 */
+                background: #cdd499;
+                border-bottom: 5px solid #000;    
+                display: flex;
+                justify-content: center; /* 헤어 배열 지정.  */
+}
+
+#header h1 { position: absolute; top: 30px;  left: 50px; } /*포지션 absolute 로 위로 띄우고 로고를 지정할 왼쪽으로 고정 띄움 */
+
+#header h1 a {  } 
+
+.gnbView { display: none; }
+
+/* 멤버십 */
+#membership { position: absolute; top: 35px; right: 50px; }
+
+#membership ul { display: flex; }
+
+#membership ul li { margin-left: 15px; }
+
+#membership ul li a { font-size: 14px; }
+
+/* gnb 관련 */
+#gnb { margin-top: 35px; }
+
+#gnb ul { display: flex; }
+
+#gnb ul li { margin: 0 20px; }
+
+#gnb ul li a{  }
+
+/* event */
+#event { width: 100%; height: 500px;
+            background: #626262;    
+            display: flex;
+            flex-direction: column; /* flex 으로 주축 방향 설정 */
+            align-items: center; /* 세로 중앙 정렬을 위해 aling-items 로 중앙 */
+            justify-content: center; /* 가로 중앙 정렬을 위해 justify-content */
+}
+
+#event h2 { color: #fff;  }
+
+#event p { margin: 20px 0 70px;
+                color: #fff; }
+
+#event a { display: block;
+                text-align: center; line-height: 30px;
+                width: 200px; height: 30px;
+                border: 1px solid #fff;
+                color: #fff; font-size: 14px;
+}
+#event a:hover { background: #fff; color: #000; }
+
+/* 본문 */
+
+main { display: flex; flex-wrap: wrap; width: 1200px; margin: 0 auto; }  /* flex 로 가로정렬 */
+
+main > section { height: 300px; }
+
+
+#content1 { background: lightgray;  }
+
+#content2 { background: lightblue; }
+
+#content3 { background: skyblue; }
+
+#content4 { background: aquamarine; }
+
+/* 푸터 */
+
+#footer { width: 100%; padding: 50px 0; /* footer 내용이 많아지더라도 padding으로 공간유지 */
+                background: darkgray;
+}
+
+/* 창 크기에 따른 컨텐츠 정렬: 1200 이상 */
+@media all and ( min-width: 1200px ) {
+    main > section { width: 25%; }
+    #event h2 { font-size: 100px; }
+    #event p { font-size: 30px; }
+} 
+
+/* 창 크기에 따른 컨텐츠 정렬: 1200 미만 */
+@media all and ( max-width: 1199px ) {
+    main { width: 100%;}
+    main > section { width: 25%; }
+    #event h2 { font-size: 10vw; }
+    #event p { font-size: 2vw; }
+}
+
+/* 창 크기에 따른 컨텐츠 정렬: 800이하  */
+@media all and ( max-width: 800px ) {
+    #header h1 { position: static; margin-top: 25px; }
+    .gnbView { display: block; position: absolute; 
+                    width: 40px; height: 40px; top: 30px; left: 30px;
+                    border: 1px solid #000; }
+
+    .gnbView::before { 
+                                  content: "";
+                                  position: absolute; top: 12px; left: 5px; /* 중심축이 없어서 absolute 해도 안 보임. 그래서 부모 요소에도 적용한다! */ 
+                                  width: 30px; height: 2px;
+                                  background: #000; } /* before 된 것은 inline 요소로 영역이 없어서 안 나옴. 따라서 display 로 block 해줘야 함! */
+                                  /* 하지만 position absolute 로 띄울거기 때문에 display block 없앰~ */
+    .gnbView::after {
+                               content: "";
+                               position: absolute; bottom: 12px; left: 5px;
+                               width: 30px; height: 2px;
+                               background: #000;
+                               transform: 0.2s;
+    }                              
+    .gnbView:hover::before { transform: rotate(45deg); top: 20px;} /* gnbView 의 befor, after 의 돌아가는 중심 축에서 돌기 때문에 어색함. 때문에 top에 20px 여백을 줘서 둘이 교차하도록 함 */
+
+    .gnbView:hover::after { transform: rotate(-45deg); top: 20px; } /* gnbVeiw 에 마우스가 올라가면~ */
+
+    #gnb { position: fixed; 
+                margin-top: 0; left: -200px; top: 0; /* gnb 를 왼쪽으로 붙이기 위해 left 0 */
+                width: 200px; height: 100vh; 
+                background: #cdd499;
+                transition: 0.5s;
+    }
+
+    #gnb ul { display:  block; } /* ul 가 inline 요소니까 block 으로 처리 */
+    #gnb ul li { line-height: 50px; text-align: center; } /* li 에 글이 작성되어 있으니까 li 에 정렬함 */
+    #gnb ul li a { color: #000; }
+
+   main > section { width: 50%; }
+   #event h2 { font-size: 32px; }
+    #event p { font-size: 16px; }
+
+} 
+
+/* 창 크기에 따른 컨텐츠 정렬: 600이하 */
+@media all and ( max-width: 600px ) {
+    #membership ul { display: block; text-align: right; } /* 넓이가 300px 정도 되면 로고와 멤버십란이 겹침. 따라서 inline 요소인 membership ul 을 display block 으로 block 요소로 바꾼 후에 text-align 으로 우측 정렬해줌 */
+    main > section { width: 100%}
+}
